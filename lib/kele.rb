@@ -1,7 +1,7 @@
  require 'httparty'
  
 class Kele
-  include HTTPARTY
+  include HTTParty
   
   def initialize(username, password)  
     
