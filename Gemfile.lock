@@ -3,13 +3,21 @@ PATH
   specs:
     kele (0.0.1)
       httparty (~> 0.13)
+<<<<<<< HEAD
+=======
+      json (~> 1.8, >= 1.8.3)
+>>>>>>> kele-cliente-user-story-retrieve-user
 
 GEM
   remote: https://rubygems.org/
   specs:
     httparty (0.15.5)
       multi_xml (>= 0.5.2)
+<<<<<<< HEAD
     json (2.1.0)
+=======
+    json (1.8.6)
+>>>>>>> kele-cliente-user-story-retrieve-user
     multi_xml (0.6.0)
 
 PLATFORMS
