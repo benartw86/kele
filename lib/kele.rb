@@ -7,15 +7,14 @@ class Kele
   include Roadmap
   
   def initialize(email, password)
-     response = self.class.post("https://www.bloc.io/api/v1/sessions", body: { "email": email, "password": 
+     response = self.class.post(base_url("sessions"), body: { "email": email, "password": 
      password })
     raise "invalid email/password" if response.code != 200
     @auth_token = response["auth_token"] 
   end
   
   def get_me
-    url = "https://www.bloc.io/api/v1/users/me"
-    response = self.class.get(url, headers: { "authorization" => @auth_token })
+    response = self.class.get(base_url("users/me"), headers: { "authorization" => @auth_token })
     @user = JSON.parse(response.body)
   end
   
@@ -32,26 +31,25 @@ class Kele
   end
   
   def get_messages
-    url = "https://www.bloc.io/api/v1/message_threads"    
+    url = "message_threads"    
     response = self.class.get(url, headers: { "authorization" => @auth_token })
     @messages = JSON.parse(response.body)
   end
   
   def create_message(sender, recipient_id, token, subject, stripped_text)
-    url = "https://www.bloc.io/api/v1/messages"    
-    response = self.class.post(url, headers: { "authorization" => @auth_token }, 
+    response = self.class.post(base_url("messages"), headers: { "authorization" => @auth_token }, 
     body: { 
       "sender": sender, 
       "recipient_id": recipient_id, 
       "token": token, 
       "subject": subject, 
-      "stripped_text": stripped_text 
+      "stripped-text": stripped_text 
     })
+    response
   end
   
   def create_submission(assignment_branch, assignment_commit_link, checkpoint_id, comment, enrollment_id)
-    url = "https://www.bloc.io/api/v1/checkpoint_submissions"
-    response = self.class.post(url, headers: { "authorization" => @auth_token }, 
+    response = self.class.post(base_url("checkpoint_submissions"), headers: { "authorization" => @auth_token }, 
     body: {
       "assignment_branch": assignment_branch,
       "assignment_commit_link": assignment_commit_link,
@@ -59,6 +57,13 @@ class Kele
       "comment": comment,
       "enrollment_id": enrollment_id
     })
+    response
+  end
+  
+  private
+  
+  def base_url(uri)
+    "https://www.bloc.io/api/v1/#{uri}"
   end
 end
 
